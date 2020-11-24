@@ -19,7 +19,6 @@ const CardInsert = ({ salary, updateSalary, addTransaction }) => {
     money: 0,
   });
 
-
   const handleNameInputChange = (e) => {
     setTran({
       ...transaction,
@@ -38,30 +37,62 @@ const CardInsert = ({ salary, updateSalary, addTransaction }) => {
     setTran({ ...transaction, tipo: e.target.value });
   };
 
-
   const handleSubmitCardInsert = (e) => {
     e.preventDefault();
     console.log(transaction.tipo);
-    const dato= salary.map(dato=>dato.quantity)[0];
-   
-    console.log(dato);
-    console.log(transaction.money);
+
+    var salaryQuantity1 = salary.map((dato) => dato.quantity)[0];
+    console.log('quantity: ' +salaryQuantity1);
+
+    var moneyTransactionString = transaction.money;
+
+    console.log('money tran'+ moneyTransactionString)
+
+    var salaryQuantityString = new String(salaryQuantity1);
+    console.log('quantity dos: '+ salaryQuantity1);
+    console.log('salary: '+ salaryQuantityString);
+    
+    if (salaryQuantityString.includes(",")) {
+      salaryQuantityString = salaryQuantity1.replaceAll(",", "");
+      console.log(salaryQuantityString);
+    }
+    const salaryQuantityNumber = parseInt(salaryQuantityString);
+    console.log(salaryQuantityNumber);
+
+    if (moneyTransactionString.includes(",")) {
+      moneyTransactionString = transaction.money.replaceAll(",", "");
+    }
+    const moneyTransactionNumber = parseInt(moneyTransactionString);
+    console.log(moneyTransactionNumber);
 
     if (transaction.tipo === "Gasto") {
-      const newSalaryCalculated = dato - transaction.money;
+      const newSalaryCalculated = salaryQuantityNumber - moneyTransactionNumber;
       console.log(newSalaryCalculated);
-      if (newSalaryCalculated>0) {
+      if (newSalaryCalculated > 0) {
         updateSalary(salary.id, newSalaryCalculated);
         if (transaction.name.trim()) {
           addTransaction({ ...transaction, id: uuid() });
         }
       } else {
-        console.log("no se pudo");
+        alert("No se pudo, no hay capital");
+      }
+    } else if (transaction.tipo === "Ingreso") {
+      const newSalaryCalculated2 =
+        salaryQuantityNumber + moneyTransactionNumber;
+      console.log(newSalaryCalculated2);
+      if (newSalaryCalculated2 > 0) {
+        console.log("sirvió");
+        updateSalary(salary.id, newSalaryCalculated2);
+        if (transaction.name.trim()) {
+          addTransaction({ ...transaction, id: uuid() });
+        }
+      } else {
+        alert("No se pudo, no hay capital");
       }
     }
+
+
   };
-
-
 
   return (
     <Card border="info" style={{ width: "19rem" }}>

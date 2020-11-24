@@ -1,12 +1,20 @@
 import {React} from "react";
 import { Button, Card, Badge } from "react-bootstrap";
-import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import ModalUpdate from "./ModalUpdate";
 
-function Income({transaction, removeTransaction}) {
+function Income({transaction, removeTransaction, updateTransaction}) {
   
   const handleButton=()=>{
     removeTransaction(transaction.id);
+  }
+
+  const badgeVariant =(tipo)=>{
+    if(tipo==="Gasto"){
+      return "warning"
+    }else{
+      return "success"
+    }
   }
   return (
     
@@ -17,11 +25,9 @@ function Income({transaction, removeTransaction}) {
         <AiOutlineClose/>
         </Button>
         {` `}
-        <Button>
-        <AiOutlineCheck/>
-        </Button>
+        <ModalUpdate transaction={transaction} updateTransaction={updateTransaction}/>
         {` `}{transaction.name}{` `}
-        <Badge variant={transaction.tipo ? "success": "Ingreso"}>{transaction.money}</Badge>
+        <Badge variant={badgeVariant(transaction.tipo)}>{transaction.money}</Badge>
         </Card.Body>
       </Card>
     </div>

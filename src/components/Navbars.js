@@ -2,9 +2,10 @@ import { React, useState } from "react";
 import { Navbar, Form, InputGroup, Button } from "react-bootstrap";
 import NumberFormat from "react-number-format";
 import { uuid } from "uuidv4";
+import InputSalary from "./InputSalary";
 
 
-const Navbars = ({addSalary}) => {
+const Navbars = ({addSalary, salary}) => {
   const [money, setMoney] = useState({
       id_money:"",
       quantity: 0,
@@ -32,6 +33,8 @@ const Navbars = ({addSalary}) => {
       
     }
   };
+
+  
 
 
 
@@ -68,11 +71,7 @@ const Navbars = ({addSalary}) => {
         <Form inline>
           <InputGroup className="mb-3">
             <Navbar.Text className="px-3">Saldo final:{` `}</Navbar.Text>
-            <NumberFormat
-              value={money.quantity}
-              thousandSeparator={true}
-              disabled="true"
-            />
+            <InputSalary salary={salary}/>
           </InputGroup>
         </Form>
       </Navbar.Collapse>

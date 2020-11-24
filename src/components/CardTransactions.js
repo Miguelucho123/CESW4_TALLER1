@@ -1,9 +1,22 @@
-import React from "react";
+import { React, useState } from "react";
 import { Card, Badge, Form, Row, Col } from "react-bootstrap";
 
 import ListTransactions from "./ListTransactions";
 
-const CardTransactions = ({ transactions, removeTransaction }) => {
+const CardTransactions = ({
+  transactions,
+  removeTransaction,
+  updateTransaction,
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  
+
   return (
     <Card border="info" style={{ width: "35rem" }}>
       <Card.Header>
@@ -13,7 +26,13 @@ const CardTransactions = ({ transactions, removeTransaction }) => {
       <Card.Body>
         <Row>
           <Col>
-            <Form.Control type="text" name="buscar" placeholder="buscar" />
+            <Form.Control
+              type="text"
+              value={searchTerm}
+              onChange={handleChange}
+              name="buscar"
+              placeholder="buscar"
+            />
           </Col>
           <Col>
             <Form.Check enabled type="radio" label="Todos" id="todos" />
@@ -30,11 +49,13 @@ const CardTransactions = ({ transactions, removeTransaction }) => {
 
         <Row>
           <Col>
-          
-          <ListTransactions
-          transactions={transactions}
-          removeTransaction={removeTransaction}
-        />
+           
+              <ListTransactions
+                transactions={transactions}
+                removeTransaction={removeTransaction}
+                updateTransaction={updateTransaction}
+              />
+        
           </Col>
         </Row>
       </Card.Body>

@@ -4,20 +4,15 @@ import CardInsert from "./components/CardInsert";
 import CardTransactions from "./components/CardTransactions";
 import Navbar from "./components/Navbars";
 
-
 const App = () => {
   const [transactions, setTtransactions] = useState([]);
   const [salary, setSalary] = useState([]);
+ 
+  const addTransaction = (transaction) => {
+       setTtransactions([...transactions, transaction]);
+  };
 
-
-
-const addTransaction= (transaction) =>{
-  console.log('hola este es desde el metodo');
-  console.log(salary.quantity);
-  setTtransactions([...transactions, transaction]);
-};
-
-  const addSalary = (newSalary) =>{
+  const addSalary = (newSalary) => {
     setSalary([...salary, newSalary]);
   };
 
@@ -31,22 +26,48 @@ const addTransaction= (transaction) =>{
     setSalary(newSalaryUpdated);
   };
 
-  const removeTransaction = (id) => {
-    setTtransactions(transactions.filter((transaction) => transaction.id !== id));
+  const updateTransaction = (id,  name,) => {
+    const newTransactionUpdated = transactions.map((tran) => {
+      if (tran.id === id) {
+        return {
+          ...tran,
+          
+          name: name,
+  
+        };
+      }
+      return tran;
+    });
+    setTtransactions(newTransactionUpdated);
   };
-    
- 
+
+  const removeTransaction = (id) => {
+    setTtransactions(
+      transactions.filter((transaction) => transaction.id !== id)
+    );
+  };
+
+
+  
 
   return (
     <Container>
-      <Navbar addSalary={addSalary}/>
+      <Navbar addSalary={addSalary} salary={salary}/>
       <br />
       <Row>
         <Col>
-          <CardInsert salary={salary} updateSalary={updateSalary} addTransaction={addTransaction} />
+          <CardInsert
+            salary={salary}
+            updateSalary={updateSalary}
+            addTransaction={addTransaction}
+          />
         </Col>
         <Col>
-          <CardTransactions transactions={transactions} removeTransaction={removeTransaction}/>
+          <CardTransactions
+            transactions={transactions}
+            removeTransaction={removeTransaction}
+            updateTransaction={updateTransaction}
+          />
         </Col>
       </Row>
     </Container>
